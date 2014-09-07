@@ -1,0 +1,15 @@
+<div class="movie">
+  <div class="col-4-sm hidden-xs">
+    <img ng-src="{{ movie.poster_path | posterPath }}" alt="{{ movie.title }}">
+  </div>
+  <div class="col-8-sm col-12-xs">
+    <header>
+      <h3>{{ movie.title }}<small> ({{ movie.release_date | releaseYear }})</small></h3>
+      <h5 ng-if="movie.title !== movie.original_title">"{{ movie.original_title }}" (original title)</h5>
+    </header>
+    <div>
+      <span>Rating: {{ movie.vote_average }}</span>
+      <a ng-href="{{ detail + movie.id }}">&raquo; more</a>
+    </div>
+  </div>
+</div>
