@@ -1,0 +1,46 @@
+// New to Stylus? Check out http://learnboost.github.io/stylus
+// Use modern CSS thanks to Autoprefixer: https://github.com/ai/autoprefixer
+
+// Import CSS from "node_modules" and "bower_components"
+// thanks to Stylus' "import css" and "paths" options
+
+@import 'prism/themes/prism-twilight.css'
+@import 'font-awesome/css/font-awesome.css'
+
+$orange = #F96e56
+$darkblue = #2d3e4F
+$sans = helvetica neue, gill sans, helvetica, arial, arial, sans-serif
+$mono = source code pro, prestige elite std, consolas, courier new, monospace
+
+.bespoke-parent
+  font-family: $sans
+  background: $darkblue
+
+.emphatic
+  background: $orange
+  text-shadow: 0px 0px 0 rgba(0, 0, 0, 0)
+  h2
+    font-size: 2em
+
+h2
+  font-family: $sans
+  font-size: 1.5em
+  transition: font-size .7s ease
+
+h3
+  font-size: 1.2em
+
+h4, h5
+  font-weight: 100
+  font-family: $sans
+
+.links
+  font-size: 1em
+  text-align: center
+  div
+    display: inline-block
+    position: relative
+    top: 100px
+
+code
+  font-family: $mono !important
