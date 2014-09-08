@@ -1,21 +1,35 @@
 <article>
-  <h3 ng-if="pages.items">Found: {{ pages.items }} | Page {{ pages.current }} / {{ pages.total }}</h3>
-  <h3 ng-if="!pages.items">Nothing found</h3>
-  <div class="row" ng-repeat="movie in movies">
-    <wdcm-movie movie="movie" detail="{{ detail }}"></wdcm-movie>
-  </div>
-  <pagination
-    ng-model="pages.current"
-    total-items="pages.items"
-    num-pages="pages.total"
-    items-per-page="20"
-    max-size="5"
-    rotate="false"
-    class="pagination-sm"
-    previous-text="&lsaquo;"
-    next-text="&rsaquo;"
-    first-text="&laquo;"
-    last-text="&raquo;"
-    boundary-links="true">
-  </pagination>
+    <div ng-if="!pages.items" class="container-fluid">
+        <div class="row">
+            <br/>
+
+            <p class="lead text-center">Search for movies on TMDB</p>
+        </div>
+    </div>
+    <div ng-if="pages.items" class="grid">
+        <br/>
+
+        <p class="lead" ng-if="pages.items">Found: {{ pages.items }} | Page {{ pages.current }} / {{ pages.total }}</p>
+      <span ng-repeat="movie in movies">
+          <wdcm-movie movie="movie" detail="{{ detail }}"></wdcm-movie>
+      </span>
+    </div>
+    <div ng-if="pages.items" class="container-fluid">
+        <div class="row text-center">
+            <pagination
+                    ng-model="pages.current"
+                    total-items="pages.items"
+                    num-pages="pages.total"
+                    items-per-page="21"
+                    max-size="5"
+                    rotate="false"
+                    class="pagination-lg"
+                    previous-text="&lsaquo;"
+                    next-text="&rsaquo;"
+                    first-text="&laquo;"
+                    last-text="&raquo;"
+                    boundary-links="true">
+            </pagination>
+        </div>
+    </div>
 </article>
