@@ -4,11 +4,6 @@ body {
   padding-bottom: 20px;
 }
 
-.thumbnail {
-    margin-bottom:7px;
-    height: 120px;
-}
-
 .grid {
     overflow: hidden;
     margin: 0;
@@ -43,6 +38,7 @@ body {
     padding: 2em;
     color: #fff;
     text-transform: uppercase;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 1);
     font-size: 1.25em;
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
@@ -162,6 +158,24 @@ figure.effect-lily:hover p {
     .grid figure {
         width: 100%;
     }
+}
+
+.widewrapper {
+    width:100%;
+    margin-top: -50px;
+}
+
+.widewrapper > img {
+    width:100%;
+}
+
+.movie .container .row {
+    margin-right: 0;
+    margin-left: 0;
+}
+
+.label {
+    margin-right: 10px;
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */

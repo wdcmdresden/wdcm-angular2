@@ -36,7 +36,7 @@ angular.module('moviebaseApp')
         return {
           brief: 'https://image.tmdb.org/t/p/w780',
           detail: 'https://image.tmdb.org/t/p/w185',
-          backdrop: 'https://image.tmdb.org/t/p/w780'
+          backdrop: 'https://image.tmdb.org/t/p/original'
         };
       };
     }
