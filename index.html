@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>AngularJS</title>
+    <link rel="stylesheet" type="text/css" href="build/build.css">
+  </head>
+  <body>
+    <article>
+      <section>
+        <h1>AngularJS</h1>
+        <h3><a href="https://twitter.com/knutwalker">@knutwalker</a></h3>
+      </section>
+      <section>
+        <h2>Agenda</h2>
+        <ul>
+          <li>routes</li>
+          <li>filters</li>
+          <li>services</li>
+          <li>directives</li>
+          <li>tools</li>
+        </ul>
+      </section>
+      <section data-bespoke-state="emphatic">
+        <h2>Routes</h2>
+        <p>deeplinking and modularization</p>
+      </section>
+      <section>
+        <h3>Routes</h3>
+        <ul class="bullets">
+          <li>extra module</li>
+          <li><code>bower install angular-route</code></li>
+          <li><code>angular.module('app', ['ngRoute']);</code></li>
+        </ul>
+      </section>
+      <section>
+        <h3>Routes</h3>
+        <pre class="language-javascript"><code>angular.module('app')
+  .config(function($routeProvider) {
+    $routeProvider
+      .when('/', {
+        templateUrl: 'views/main.html',
+        controller: 'MainCtrl'
+      })
+  });</code></pre>
+      </section>
+      <section>
+        <h3>Routes</h3>
+        <pre class="language-javascript"><code>angular.module('app')
+  .config(function($routeProvider) {
+    $routeProvider
+      .when('/item/:id', {
+        templateUrl: 'views/item.html',
+        controller: 'ItemCtrl'
+      });
+  });</code></pre>
+      </section>
+      <section>
+        <h3>Routes</h3>
+        <pre class="language-javascript"><code>angular.module('app')
+  .controller('ItemCtrl',
+    function($scope, $routeParams) {
+      var requestedId = $routeParams.id;
+      ...
+    });</code></pre>
+      </section>
+      <section>
+        <h3>Routes</h3>
+        <pre class="language-markup"><code>&lt;html ng-app='app'&gt;
+  ...
+  &lt;div ng-view&gt;&lt;/div&gt;
+  ...
+&lt;/html&gt;</code></pre>
+      </section>
+      <section data-bespoke-state="emphatic">
+        <h2>Filters</h2>
+        <p>reusable formatting and transformation</p>
+      </section>
+      <section>
+        <h3>Filters</h3>
+        <pre class="language-javascript"><code>{{ expression | filter }}
+{{ expression | filter:'arg' }}
+{{ expression | filter1 | filter2 }}</code></pre>
+      </section>
+      <section>
+        <h3>Filters</h3>
+        <pre class="language-javascript"><code>angular.module('app')
+  .controller('FooCtrl',
+    function(filterFilter) {
+      var someValue = ...;
+      var filtered =
+        filterFilter(someValue, 'arg');
+    });</code></pre>
+      </section>
+      <section>
+        <h3>Filters</h3>
+        <pre class="language-javascript"><code>angular.module('app')
+  .filter('shout', function() {
+    return function(input, exclaim) {
+      input = input || ''
+      var out = input.toUpperCase();
+      if (exclaim) out += '!!!!';
+      return out;
+    };
+  });</code></pre>
+      </section>
+      <section>
+        <h3>Filters</h3>
+        <pre class="language-javascript"><code>{{ 'foo' | shout }}      // -&gt; 'FOO'
+{{ 'foo' | shout:true }} // -&gt; 'FOO!!!!'</code></pre>
+      </section>
+      <section data-bespoke-state="emphatic">
+        <h2>Services</h2>
+        <p>utilities and helpers</p>
+      </section>
+      <section>
+        <h3>Services</h3>
+        <ul class="bullets">
+          <li>focused</li>
+          <li>independent</li>
+          <li>reusable</li>
+          <li>small</li>
+          <li>testable</li>
+        </ul>
+      </section>
+      <section>
+        <h3>Services</h3>
+        <p>several flavors</p>
+        <ul>
+          <li><code>value</code></li>
+          <li><code>constant</code></li>
+          <li><code>service</code></li>
+          <li><code>factory</code></li>
+          <li><code>provider</code></li>
+        </ul>
+      </section>
+      <section>
+        <h3>Services</h3>
+        <h4><code>value</code></h4>
+        <pre class="language-javascript bullet"><code>angular.module('app')
+  .value('foo', 'bar')
+  .controller('FooCtrl', function(foo) {
+    console.log(foo); // -&gt; 'bar'
+  });</code></pre>
+        <ul class="bullet">
+          <li>no dependencies</li>
+          <li>primitives, functions, and objects possible</li>
+          <li>not available in <code>config</code> phase</li>
+        </ul>
+      </section>
+      <section>
+        <h3>Services</h3>
+        <h4><code>constant</code></h4>
+        <pre class="language-javascript bullet"><code>angular.module('app')
+  .constant('foo', 'bar')
+  .config(function(foo) {
+    console.log(foo); // -&gt; 'bar'
+  });</code></pre>
+        <ul class="bullet">
+          <li>basically same as <code>value</code></li>
+          <li><em>is</em> available in <code>config</code> phase</li>
+        </ul>
+      </section>
+      <section>
+        <h3>Services</h3>
+        <h4><code>service</code></h4>
+        <pre class="language-javascript bullet"><code>angular.module('app')
+  .service('bar', function Bar(foo) {
+    this.print = function() {
+      console.log(foo);
+    }
+  });</code></pre>
+      </section>
+      <section>
+        <h3>Services</h3>
+        <h4><code>service</code></h4>
+        <pre class="language-javascript bullet"><code>angular.module('app')
+  .controller('BarCtrl', function(bar) {
+      // bar = new Bar();
+      bar.print(); // -&gt; 'bar'
+  });</code></pre>
+        <ul class="bullet">
+          <li>can have dependencies</li>
+          <li>only for <code>new</code>-able objects, though</li>
+          <li>not available in <code>config</code> phase</li>
+        </ul>
+      </section>
+      <section>
+        <h3>Services</h3>
+        <h4><code>factory</code></h4>
+        <pre class="language-javascript bullet"><code>angular.module('app')
+  .factory('bar', function(foo) {
+    return {
+      print: function() {
+        console.log(foo);
+      }
+    }
+  });</code></pre>
+      </section>
+      <section>
+        <h3>Services</h3>
+        <h4><code>factory</code></h4>
+        <pre class="language-javascript bullet"><code>angular.module('app')
+  .controller('BarCtrl', function(bar) {
+    bar.print(); // -&gt; 'bar'
+  });</code></pre>
+        <ul class="bullet">
+          <li>can have dependencies</li>
+          <li>primitives, functions, and objects possible</li>
+          <li>not available in <code>config</code> phase</li>
+        </ul>
+      </section>
+      <section>
+        <h3>Services</h3>
+        <h4><code>provider</code></h4>
+        <pre class="language-javascript bullet"><code>angular.module('app')
+  .provider('bar', function() {
+    this.$get = function(foo) {
+      return {
+        print: function() {
+          console.log(foo);
+        }
+      }}});</code></pre>
+      </section>
+      <section>
+        <h3>Services</h3>
+        <h4><code>provider</code></h4>
+        <pre class="language-javascript bullet"><code>angular.module('app')
+  .controller('BarCtrl', function(bar) {
+    bar.print(); // -&gt; 'bar'
+  });</code></pre>
+        <ul class="bullet">
+          <li>can have dependencies</li>
+          <li>primitives, functions, and objects possible</li>
+          <li>available and configurable in <code>config</code> phase</li>
+        </ul>
+      </section>
+      <section>
+        <h3>Services</h3>
+        <h4><code>provider</code></h4>
+        <pre class="language-javascript bullet"><code>angular.module('app')
+  .provider('greeter', function() {
+    var greeting = 'hello';
+    this.setGreeting = function(newGreeting) {
+      greeting = newGreeting;
+    }
+    this.$get = function() {
+      return function(greetee) {
+        return greeting + ', ' + greetee;
+      }
+    }
+  });</code></pre>
+      </section>
+      <section>
+        <h3>Services</h3>
+        <h4><code>provider</code></h4>
+        <pre class="language-javascript bullet"><code>angular.module('app')
+  .config(function(greeterProvider) {
+    greeterProvider.setGreeting('moin');
+  })
+  .controller('BarCtrl', function(greeter) {
+    greeter('world'); // -&gt; 'moin, world'
+  });</code></pre>
+      </section>
+      <section>
+        <h3>Services</h3>
+        <p>tl;dr</p>
+        <ul>
+          <li>need static configuration? -&gt; <code>provider</code></li>
+          <li>bunch of utility methods? -&gt; <code>factory</code>/<code>service</code></li>
+          <li>constant primitives? -&gt; <code>value</code>/<code>constant</code></li>
+        </ul>
+      </section>
+      <section data-bespoke-state="emphatic">
+        <h2>Directives</h2>
+        <p>customize your HTML</p>
+      </section>
+      <section>
+        <h3>Directives</h3>
+        <ul class="bullets">
+          <li>markers or instructions for Angular's HTML compiler</li>
+          <li>attach behavior to DOM</li>
+          <li>transform DOM element</li>
+          <li>create new DOM trees</li>
+        </ul>
+      </section>
+      <section>
+        <h3>Directives</h3>
+        <p>can be custom elements, attributes, or classes</p>
+        <p><br></p>
+        <pre class="language-markup"><code>&lt;my-directive foo&gt;&lt;/my-directive&gt;
+&lt;div my-directive="foo"&gt;&lt;/div&gt;
+&lt;div class="my-directive: foo;"&gt;&lt;/div&gt;
+</code></pre>
+      </section>
+      <section>
+        <h3>Directives</h3>
+        <p>normalized name</p>
+        <p><br></p>
+        <pre class="language-markup"><code>&lt;div my-directive="foo"&gt;&lt;/div&gt;
+&lt;div my:directive="foo"&gt;&lt;/div&gt;
+&lt;div my_directive="foo"&gt;&lt;/div&gt;
+&lt;div data-my-directive="foo"&gt;&lt;/div&gt;
+&lt;div x-my-directive="foo"&gt;&lt;/div&gt;
+</code></pre>
+      </section>
+      <section>
+        <h3>Directives</h3>
+        <p><a href="https://docs.angularjs.org/api/ng/directive">built-ins</a></p>
+        <ul>
+          <li>ng-model, ng-init, ng-app</li>
+          <li>ng-repeat, ng-if, ng-show, ng-hide</li>
+          <li>ng-click, ng-change, ng-submit</li>
+          <li>ng-src, ng-href, ng-bind, ng-cloak</li>
+          <li>ng-attr-*, ng-style</li>
+        </ul>
+      </section>
+      <section>
+        <h3>Directives</h3>
+        <h4>custom directives</h4>
+        <pre class="language-javascript"><code>angular.module('app')
+  .directive('myFoo', function(deps, ...) {
+    return DDO;
+  });
+  </code></pre>
+      </section>
+      <section>
+        <h3>Directives</h3>
+        <h4>template directives</h4>
+        <pre class="language-javascript"><code>angular.module('app')
+  .directive('mySpan', function() {
+    return {
+      template:
+        '&lt;span&gt;&lt;em&gt;&lt;strong&gt;' +
+        '{{ foo }}' +
+        '&lt;/strong&gt;&lt;/em&gt;&lt;/span&gt;'
+    };});</code></pre>
+      </section>
+      <section>
+        <h3>Directives</h3>
+        <h4>template directives</h4>
+        <pre class="language-markup"><code>&lt;div my-span ng-init='foo="bar"'&gt;&lt;/div&gt;
+&lt;!-- --&gt;
+&lt;div&gt;
+  &lt;span&gt;
+    &lt;em&gt;
+      &lt;strong&gt;bar&lt;/strong&gt;
+    &lt;/em&gt;
+  &lt;/span&gt;
+&lt;/div&gt;</code></pre>
+      </section>
+      <section>
+        <h3>Directives</h3>
+        <h4>template directives</h4>
+        <pre class="language-javascript"><code>angular.module('app')
+  .directive('mySpan', function() {
+    return {
+      templateUrl:
+        'views/directive/mySpan.html'
+    };
+  });</code></pre>
+      </section>
+      <section>
+        <h3>Directives</h3>
+        <h4>custom elements</h4>
+        <pre class="language-javascript"><code>angular.module('app')
+  .directive('mySpan', function() {
+    return {
+      restrict: 'E',
+      template: '...'
+    };
+  });</code></pre>
+      </section>
+      <section>
+        <h3>Directives</h3>
+        <h4>custom elements</h4>
+        <pre class="language-markup"><code>&lt;my-span ng-init='foo="bar"'&gt;&lt;/my-span&gt;
+&lt;!-- --&gt;
+&lt;my-span&gt;
+  &lt;span&gt;
+    &lt;em&gt;
+      &lt;strong&gt;bar&lt;/strong&gt;
+    &lt;/em&gt;
+  &lt;/span&gt;
+&lt;/my-span&gt;</code></pre>
+      </section>
+      <section>
+        <h3>Directives</h3>
+        <h4>custom elements</h4>
+        <pre class="language-javascript"><code>return {
+  restrict: 'E',
+  scope: {
+    'foo': '='
+  },
+  template: '...'
+};</code></pre>
+      </section>
+      <section>
+        <h3>Directives</h3>
+        <h4>custom elements</h4>
+        <pre class="language-markup"><code>&lt;my-span foo="bar"&gt;&lt;/my-span&gt;
+&lt;!-- --&gt;
+&lt;my-span&gt;
+  &lt;span&gt;
+    &lt;em&gt;
+      &lt;strong&gt;bar&lt;/strong&gt;
+    &lt;/em&gt;
+  &lt;/span&gt;
+&lt;/my-span&gt;</code></pre>
+      </section>
+      <section>
+        <h3>Directives</h3>
+        <h4>custom elements</h4>
+        <pre class="language-javascript"><code>angular.module('app')
+  .directive('myTime', function(dateFilter) {
+    return {
+      link: function(scope, element, attrs) {
+        element.text(dateFilter(
+          new Date(), 'yyyy-MM-dd hh:mm:ss'));
+    }};
+  });</code></pre>
+      </section>
+      <section>
+        <h3>Directives</h3>
+        <h4>custom elements</h4>
+        <pre class="language-markup"><code>&lt;div my-time&gt;&lt;/div&gt;
+&lt;!-- --&gt;
+&lt;div&gt;2014-09-09 19:52:50&lt;/div&gt;</code></pre>
+      </section>
+      <section>
+        <h3>Directives</h3>
+        <h4>custom elements</h4>
+        <pre class="language-javascript"><code>link: function(scope, element, attrs) {
+  function update() {
+    element.text(dateFilter(
+      new Date(), 'yyyy-MM-dd hh:mm:ss'));
+  }
+  update();
+  element.on('click', update);
+  element.on('$destroy', function() {
+    element.off('click', update);
+  });
+}</code></pre>
+      </section>
+      <section>
+        <h3>Directives</h3>
+        <h4>wrapper elements</h4>
+        <pre class="language-javascript"><code>directive('myAlert', function() {
+  return {
+    restrict: 'E',
+    transclude: true,
+    template:
+      '&lt;div class="alert" ng-transclude&gt;&lt;/div&gt;'
+};});</code></pre>
+      </section>
+      <section>
+        <h3>Directives</h3>
+        <h4>wrapper elements</h4>
+        <pre class="language-markup"><code>&lt;my-alert&gt;
+  &lt;span&gt;foo&lt;/span&gt;
+&lt;/my-alert&gt;
+&lt;!-- --&gt;
+&lt;my-alert&gt;
+  &lt;div class="alert"&gt;
+    &lt;span&gt;foo&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/my-alert&gt;</code></pre>
+      </section>
+      <section>
+        <h3>Directives</h3>
+        <h4>Directive Definition Object</h4>
+        <pre class="language-javascript"><code>priority: 0,
+controller: function($scope, ...) {},
+require: 'sibling', // '^parent'
+compile: function(tElement, tAttrs) {
+  return function (scope, iElem, iAttrs) {}
+},
+...</code></pre>
+      </section>
+      <section data-bespoke-state="emphatic">
+        <h2>Tools</h2>
+        <p>build tools that make your life easier</p>
+      </section>
+      <section>
+        <h3>Tools</h3>
+        <h4>Problem: Minification breaks everything</h4>
+        <p>Angular DI works on function parameter names</p>
+        <p><code>controller('Foo', function($scope) {});</code></p>
+        <p>becomes</p>
+        <p><code>controller('Foo', function(a) {});</code></p>
+      </section>
+      <section>
+        <h3>Tools</h3>
+        <h4>
+          Solution:
+          &nbsp;<a href="https://github.com/olov/ng-annotate"><code>ng-annotate</code></a>
+        </h4>
+        <p>Automatically annotates code with long DI notation</p>
+        <p><code>controller('Foo', function($scope) {});</code></p>
+        <p>becomes</p>
+        <p><code>controller('Foo', ['$scope', function(a) {}]);</code></p>
+      </section>
+      <section>
+        <h3>Tools</h3>
+        <h4 class="bullet">Problem: Code becomes harder to debug</h4>
+        <h4 class="bullet">
+          Solution:
+          &nbsp;<a href="https://chrome.google.com/webstore/detail/angularjs-batarang/ighdmehidhipcmcojjgiloacoafjmpfk?hl=en">Batarang</a>
+        </h4>
+        <p class="bullet">
+          Chrome dev tools plugin, that supports inspection of Angular scopes
+          and profiling of your application
+          
+        </p>
+      </section>
+      <section>
+        <h3>Tools</h3>
+        <h4>Problem: Many small files make it hard to keep good modularization</h4>
+        <p>It's good measure to keep only one logical definition per file</p>
+        <p>E.g. one directive (and possibly its controller), or one service</p>
+      </section>
+      <section>
+        <h3>Tools</h3>
+        <h4>
+          Solution:
+          &nbsp;<a href="https://github.com/taptapship/wiredep">Wiredep</a>&nbsp;and&nbsp;<a href="https://github.com/yeoman/generator-angular">Yeoman</a>
+        </h4>
+        <p>type this in your command line</p>
+        <p><code>yo angular:directive my-foo</code></p>
+        <p>creates directive stub, test file, updates index.html</p>
+        <p>wiredep keeps your index.html in sync with your bower.json</p>
+      </section>
+      <section>
+        <h3>Tools</h3>
+        <h4 class="bullet">
+          Problem:
+          Lots of directives and views each with an own template
+          have heavy impact on delay due to heavy XHRs
+        </h4>
+        <h4 class="bullet">
+          Solution:
+          &nbsp;<a href="https://github.com/ericclemmons/grunt-angular-templates">grunt-angular-templates</a>
+        </h4>
+        <p class="bullet">
+          during build, minifies, combines, and caches all angular templates
+          during runtime, they are loaded from <code>$templateCache</code> w/o XHR
+          <code>$templateCache</code> works great for testing, too!
+          
+          
+        </p>
+      </section>
+      <section>
+        <h3>Tools</h3>
+        <h4 class="bullet">
+          Problem:
+          Different developers and deployments require differrent settings and constants
+        </h4>
+        <h4 class="bullet">
+          Solution:
+          &nbsp;<a href="https://github.com/werk85/grunt-ng-constant">grunt-ng-constant</a>
+        </h4>
+        <p class="bullet">
+          plugin generates a module with a bunch of <code>constant</code> definitions
+          that can be controlled from the outside (pre-build)
+          your app depends on these <code>constant</code>s
+          
+        </p>
+      </section>
+      <section>
+        <h1>fin</h1>
+        <aside class="links">
+          <div>
+            <h5><i class="fa fa-twitter"></i>&nbsp;<a href="https://twitter.com/knutwalker">@knutwalker</a></h5>
+            <h5><i class="fa fa-github"></i>&nbsp;<a href="https://github.com/knutwalker">@knutwalker</a></h5>
+            <h5><i class="fa fa-file-text-o"></i>&nbsp;<a href="https://bit.ly/wdcm-angular2">slides</a></h5>
+            <h5><i class="fa fa-github-alt"></i>&nbsp;<a href="https://github.com/knutwalker/wdcm-angular2">demo</a></h5>
+          </div>
+        </aside>
+      </section>
+    </article>
+    <script src="build/build.js"></script>
+  </body>
+</html>
