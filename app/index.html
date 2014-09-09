@@ -21,19 +21,30 @@
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">Moviebase</a>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a target="_blank" ng-href="https://github.com/knutwalker"><i class="fa fa-github"></i></a></li>
+                    <li><a target="_blank" ng-href="https://twitter.com/knutwalker"><i class="fa fa-twitter"></i></a></li>
+                    <li><a target="_blank" ng-href="http://stackoverflow.com/users/2996265/knutwalker"><i class="fa fa-stack-overflow"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
     <!-- Add your site or application content here -->
-    <div class="container">
-      <div class="header">
-        <ul class="nav nav-pills pull-right">
-          <li><a target="_blank" ng-href="https://github.com/knutwalker"><i class="fa fa-github"></i></a></li>
-          <li><a target="_blank" ng-href="https://twitter.com/knutwalker"><i class="fa fa-twitter"></i></a></li>
-          <li><a target="_blank" ng-href="http://stackoverflow.com/users/2996265/knutwalker"><i class="fa fa-stack-overflow"></i></a></li>
-        </ul>
-        <h3 class="text-muted"><a href="#/">moviebase</a></h3>
-      </div>
 
       <div ng-view=""></div>
-    </div>
 
     <!-- build:js(.) scripts/oldieshim.js -->
     <!--[if lt IE 9]>

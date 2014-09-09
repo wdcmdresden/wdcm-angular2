@@ -1,47 +1,62 @@
-<div class="movie row" ng-if="loaded">
-  <img ng-src="{{ movie.backdrop_path | posterPath:'backdrop' }}" alt="{{ movie.title }}">
-  <div class="row">
-    <div class="col-12-xs">
-      <header>
-        <h3>{{ movie.title }}<small> ({{ movie.release_date | releaseYear }})</small></h3>
-        <h5 ng-if="movie.title !== movie.original_title">"{{ movie.original_title }}" (original title)</h5>
-      </header>
-      <div>
-        <span ng-repeat="genre in movie.genres" class="label label-default">{{ genre.name }}</span>
-        <p>{{ movie.tagline }}</p>
-        <p>{{ movie.overview }}</p>
-      </div>
-      <div>
-        <dl>
-          <dt>Homepage</dt>
-          <dd><a target="_blank" ng-href="{{ movie.homepage }}">{{ movie.homepage }}</a></dd>
-          <dt>IMDb</dt>
-          <dd><a target="_blank" ng-href="http://www.imdb.com/title/{{ movie.imdb_id }}">{{ movie.title }} on the IMDb</a></dd>
-          <dt>Runtime</dt>
-          <dd>{{ movie.runtime }} minutes</dd>
-          <dt>Release date</dt>
-          <dd>{{ movie.release_date }}</dd>
-          <dt>Budget</dt>
-          <dd>{{ movie.budget }} US$</dd>
-          <dt>Revenue</dt>
-          <dd>{{ movie.revenue }} US$</dd>
-          <dt>Rating</dt>
-          <dd>{{ movie.vote_average }} (of {{ movie.vote_count }} votes)</dd>
-        </dl>
-      </div>
-      <div>
-        <dl>
-          <dt ng-repeat-start="cast in movie.credits.cast">{{ cast.name }}</dt>
-          <dd ng-repeat-end>{{ cast.character }}</dd>
-        </dl>
-      </div>
-      <div ng-repeat="department in crewDepartments">
-        <h4>{{ department.name }}</h4>
-        <dl>
-          <dt ng-repeat-start="jobs in department.items">{{ jobs.name }}</dt>
-          <dd ng-repeat-end ng-repeat="job in jobs.items">{{ job.name }}</dd>
-        </dl>
-      </div>
+<div class="movie" ng-if="loaded">
+    <div class="widewrapper">
+        <img ng-src="{{ movie.backdrop_path | posterPath:'backdrop' }}" alt="{{ movie.title }}" class="img-responsive">
     </div>
-  </div>
+    <div class="container">
+        <div class="row">
+            <div class="page-header">
+                <h1>{{ movie.title }}
+                    <small> ({{ movie.release_date | releaseYear }})</small>
+                </h1>
+                <h5 ng-if="movie.title !== movie.original_title">"{{ movie.original_title }}" (original title)</h5>
+            </div>
+            <blockquote>{{ movie.overview }}</blockquote>
+        </div>
+        <div class="row">
+            <div class="page-header">
+                <h3>Genres</h3>
+            </div>
+            <h4><span ng-repeat="genre in movie.genres" class="label label-default">{{ genre.name }}</span></h4>
+        </div>
+        <div class="row">
+            <div class="page-header">
+                <h3>Informations</h3>
+            </div>
+            <dl class="dl-horizontal">
+                <dt>Homepage</dt>
+                <dd><a target="_blank" ng-href="{{ movie.homepage }}">{{ movie.homepage }}</a></dd>
+                <dt>IMDb</dt>
+                <dd><a target="_blank" ng-href="http://www.imdb.com/title/{{ movie.imdb_id }}">{{ movie.title }} on the
+                    IMDb</a></dd>
+                <dt>Runtime</dt>
+                <dd>{{ movie.runtime }} minutes</dd>
+                <dt>Release date</dt>
+                <dd>{{ movie.release_date }}</dd>
+                <dt>Budget</dt>
+                <dd>{{ movie.budget }} US$</dd>
+                <dt>Revenue</dt>
+                <dd>{{ movie.revenue }} US$</dd>
+                <dt>Rating</dt>
+                <dd>{{ movie.vote_average }} (of {{ movie.vote_count }} votes)</dd>
+            </dl>
+        </div>
+        <div class="row">
+            <div class="page-header">
+                <h3>Cast</h3>
+            </div>
+            <dl class="dl-horizontal">
+                <dt ng-repeat-start="cast in movie.credits.cast">{{ cast.name }}</dt>
+                <dd ng-repeat-end>{{ cast.character }}</dd>
+            </dl>
+        </div>
+        <div class="row" ng-repeat="department in crewDepartments">
+            <div class="page-header">
+                <h3>{{ department.name }}</h3>
+            </div>
+            <dl class="dl-horizontal">
+                <dt ng-repeat-start="jobs in department.items">{{ jobs.name }}</dt>
+                <dd ng-repeat-end ng-repeat="job in jobs.items">{{ job.name }}</dd>
+            </dl>
+        </div>
+    </div>
 </div>

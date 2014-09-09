@@ -19,6 +19,6 @@ angular.module('moviebaseApp')
           return baseUrl + input;
         }
       }
-      return '';
+      return 'http://placekitten.com/700/575';
     };
   });
